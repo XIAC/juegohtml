@@ -3,7 +3,7 @@
     <!-- Pull the engine from the Quintus CDN or load it locally -->
     <!-- (use quintus-all.min.js for production) -->
     <!-- <script src='http://cdn.html5quintus.com/v0.2.0/quintus-all.js'></script> -->
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="estilo.css" />
     <script src="lib/quintus.js"></script>
     <script src="lib/quintus_2d.js"></script>
     <script src="lib/quintus_anim.js"></script>
@@ -14,75 +14,102 @@
     <script src="lib/quintus_tmx.js"></script>
     <script src="lib/quintus_touch.js"></script>
     <script src="lib/quintus_ui.js"></script>
-
   </head>
-   <body>
-     <script>
-           // Now set up your game (most games will load a separate .js file)
-      var Q = Quintus()                          // Create a new engine instance
-              .include("Sprites, Scenes, 2D") // Load any needed modules
-              .setup({
-                  width:1080,
-                  height:720
-              })                           // Add a canvas element onto the page
+  <body>
+    <script>
+      // Now set up your game (most games will load a separate .js file)
+      var Q = Quintus() // Create a new engine instance
+        .include("Sprites, Scenes, 2D, UI") // Load any needed modules
+        .setup({
+          width: 1080,
+          height: 720,
+        }); // Add a canvas element onto the page
 
-        // para la gravedad
-        Q.gravityX = 0;
-        Q.gravityY = 0;
+      // para la gravedad
+      Q.gravityX = 0;
+      Q.gravityY = 0;
 
-        Q.SPRITE_MARIO = 0;
-        Q.SPRITE_PISO = 0;
-        Q.SPRITE_BALAS = 0;
-        Q.SPRITE_ENEMIGO = 0;
-
-        Q.Sprite.extend("Mario" ,{
-          init:function(p){
-            this._super( p ,{
-              asset:"mario150.png",
-              type:Q.SPRITE_MARIO,
-              vx:-50
-            });
-            this.add("2d");
-          },
-          step: function (dt){
-            // console.log(this.p);
-            if(this.p.x <= 10){
-              this.destroy();
-              console.log("Mario esta huyendo");
-              // Q.stageScene("nivel1");
-            }
-          }
-        });
-        Q.scene("nivel1", function (stage){
-            var sprite1 = new Q.Sprite({
-                x: 1080/2,
-                y: 720/2,
-                asset:"bg.jpg",
-                type:Q.SPRITE_PISO
-            });
-            //MIS PERSONAJES
-            var sprite2 = new Q.Mario({
-                x: 600,
-                y: 150
-            });
-            var sprite3 = new Q.Mario({
-                x: 750,
-                y: 200
-            });
-            var sprite4 = new Q.Mario({
-                x: 850,
-                y: 300
-            });
-           stage.insert(sprite1);
-           stage.insert(sprite2);
-           stage.insert(sprite3);
-           stage.insert(sprite4);
-
-        });           
-        Q.load("bg.jpg, mario150.png", function (){
-            // Q.compileSheets("bg.jpg");
+      Q.SPRITE_MARIO = 0;
+      Q.SPRITE_PISO = 0;
+      Q.SPRITE_BALAS = 0;
+      Q.SPRITE_ENEMIGO = 0;
+      Q.SPRITE_HONGOS = 0;
+      //MI PERSONAJE
+      Q.Sprite.extend("Mario", {
+        init: function (p) {
+          this._super(p, {
+            asset: "mario150.png",
+            type: Q.SPRITE_MARIO,
+            collisionMask: Q.SPRITE_BALAS | Q.SPRITE_HONGOS,
+            vx: -50,
+          });
+          this.add("2d");
+        },
+        step: function (dt) {
+          // console.log(this.p);
+          if (this.p.x <= 10) {
+            this.destroy();
+            console.log("Mario esta huyendo");
             Q.stageScene("nivel1");
+          }
+        },
+      });
+      //LA CLASE UI
+      Q.UI.Container.extend("BarraLateral", {
+        init: function () {
+          this._super({
+            fill: "#B71C1C",
+            x: 60,
+            y: 300,
+            radius: 0,
+            border: 0,
+            w: 150,
+            h: 720,
+          });
+          this.on("inserted");
+        },
+        inserted: function () {
+          var hongo = new Q.Sprite({
+            asset: "hongo.png",
+            x: 60,
+            y: 40,
+            scale: 0.03,
+          });
+          this.stage.insert(hongo);
+        },
+      });
+
+      Q.scene("nivel1", function (stage) {
+        var sprite1 = new Q.Sprite({
+          x: 1080 / 2,
+          y: 720 / 2,
+          asset: "bg.jpg",
+          type: Q.SPRITE_PISO,
         });
-   </script>
-   </body>
+        //MIS PERSONAJES
+        var sprite2 = new Q.Mario({
+          x: 600,
+          y: 150,
+        });
+        var sprite3 = new Q.Mario({
+          x: 750,
+          y: 200,
+        });
+        var sprite4 = new Q.Mario({
+          x: 850,
+          y: 300,
+        });
+        stage.insert(sprite1);
+        stage.insert(sprite2);
+        stage.insert(sprite3);
+        stage.insert(sprite4);
+        var barraLateral = new Q.BarraLateral();
+        stage.insert(barraLateral);
+      });
+      Q.load("bg.jpg, mario150.png, hongo.png", function () {
+        // Q.compileSheets("bg.jpg");
+        Q.stageScene("nivel1");
+      });
+    </script>
+  </body>
 </html>
