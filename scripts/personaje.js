@@ -28,7 +28,7 @@ Quintus.PersonajeGUI = function (Q) {
       // console.log(this.p);
       if (this.p.x <= 150) {
         this.destroy();
-        console.log("Mario esta huyendo");
+        console.log("Mario se destruyo");
         Q.stageScene("nivel1");
       }
     },
