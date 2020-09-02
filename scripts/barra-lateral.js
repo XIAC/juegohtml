@@ -12,8 +12,13 @@ Quintus.BarraLateralGUI = function (Q) {
         h: 720,
       });
       this.on("inserted");
+      var panel=this;
+      Q.state.on("change.cantidadHongo", function(){
+        panel.actualizarContadorHongos();
+      })
     },
     inserted: function () {
+      // creado un objeto hongo
       var hongo = new Q.Sprite({
         asset: "hongo.png",
         x: 60,
@@ -21,6 +26,19 @@ Quintus.BarraLateralGUI = function (Q) {
         scale: 0.03,
       });
       this.stage.insert(hongo);
+      // creacion de texto
+      this.totalHongos= new Q.UI.Text({
+        x: 60,
+        y: 125,
+        label: " "
+      });
+      this.stage.insert(this.totalHongos);
+      this.actualizarContadorHongos();
     },
+    actualizarContadorHongos: function(){
+      console.log(Q.state.p);
+      console.log(this.totaHongos);
+      this.totalHongos.p.label=Q.state.get("cantidadHongo")+" ";
+    }
   });
 };

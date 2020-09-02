@@ -15,8 +15,9 @@ Quintus.Hongo = function (Q) {
     touch: function (touch) {
       console.log(touch);
       console.log("Hizo click");
-      this.destroy();
       // que incremente el contador
+      Q.state.inc("cantidadHongo", 50);
+      this.destroy();
     },
   });
 };
