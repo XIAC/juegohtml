@@ -36,8 +36,6 @@ Quintus.BarraLateralGUI = function (Q) {
       this.actualizarContadorHongos();
     },
     actualizarContadorHongos: function(){
-      console.log(Q.state.p);
-      console.log(this.totaHongos);
       this.totalHongos.p.label=Q.state.get("cantidadHongo")+" ";
     }
   });

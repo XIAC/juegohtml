@@ -18,14 +18,18 @@
     <script src="scripts/barra-lateral.js"></script>
     <script src="scripts/personaje.js"></script>
     <script src="scripts/hongo.js"></script>
+    <script src="scripts/gameplay.js"></script>
+
+    <script src="scripts/enemigo.js"></script>
+
+
   </head>
   <body>
     <script>
       // Now set up your game (most games will load a separate .js file)
       var Q = Quintus() // Create a new engine instance
-        .include(
-          "Sprites, Scenes, 2D, UI, Touch, BarraLateralGUI, PersonajeGUI, Hongo"
-        ) // Load any needed modules
+        .include("Sprites, Scenes, 2D, UI, Touch") // Load any needed modules
+        .include("BarraLateralGUI, PersonajeGUI, Hongo, GamePlayGUI, EnemigoGUI")
         .setup({
           width: 1080,
           height: 720,
@@ -41,21 +45,10 @@
       Q.SPRITE_ENEMIGO = 4;
       Q.SPRITE_HONGOS = 8;
       //Acivar el touch
-      Q.touch(Q.SPRITE_HONGOS);
+      Q.touch(Q.SPRITE_HONGOS | Q.SPRITE_PISO);
       //Escena principal
       Q.scene("nivel1", function (stage) {
-        var sprite1 = new Q.Sprite({
-          x: 1080 / 2,
-          y: 720 / 2,
-          asset: "bg.jpg",
-          type: Q.SPRITE_PISO,
-        });
-        //MIS HONGOS
-        var hongo1 = new Q.Hongo();
-        var hongo2 = new Q.Hongo();
-        var hongo3 = new Q.Hongo();
-        var hongo4 = new Q.Hongo();
-
+         var nvl1 = new Q.Nivel();     
         //MIS PERSONAJES
         var sprite2 = new Q.Mario(
           Q._extend({ x: 800, y: 100 }, Q.tipoPersonaje["mario"])
@@ -66,25 +59,36 @@
         var sprite4 = new Q.Mario(
           Q._extend({ x: 800, y: 550 }, Q.tipoPersonaje["princesa"])
         );
-        stage.insert(sprite1);
+        stage.insert(nvl1);
         stage.insert(sprite2);
         stage.insert(sprite3);
         stage.insert(sprite4);
-        stage.insert(hongo1);
-        stage.insert(hongo2);
-        stage.insert(hongo3);
-        stage.insert(hongo4);
-
+        var enemigo = new Q.Enemigo(
+          Q._extend({ x: 300, y: 350 })
+        );
+        stage.insert(enemigo);
         var barraLateral = new Q.BarraLateral();
         stage.insert(barraLateral);
       });
       Q.load(
-        "bg.jpg, mario150.png, hongo.png, Luigi50x50.png, princesa100x100.png",
+        "bg.jpg, mario150.png, hongo.png, Luigi50x50.png, princesa100x100.png, dragon300.png",
         function () {
           // Q.compileSheets("bg.jpg");
           // variables de estado, vida, balas
           Q.state.reset({cantidadHongo:120});
-          Q.stageScene("nivel1");
+          Q.stageScene("nivel1", 0);
+          Q.stageScene("hongo", 1);
+          // hongos
+          var hongo1 = new Q.Hongo();
+          var hongo2 = new Q.Hongo();
+          var hongo3 = new Q.Hongo();
+          var hongo4 = new Q.Hongo();
+
+          Q.stage(1).insert(hongo1);
+          Q.stage(1).insert(hongo2);
+          Q.stage(1).insert(hongo3);
+          Q.stage(1).insert(hongo4);
+
         }
       );
     </script>
