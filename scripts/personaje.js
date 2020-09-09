@@ -3,7 +3,7 @@ Quintus.PersonajeGUI = function (Q) {
     mario: {
       asset: "mario150.png",
       vx: -5,
-      danio: 1
+      danio: 15
     },
     luigi: {
       asset: "Luigi50x50.png",
@@ -23,6 +23,8 @@ Quintus.PersonajeGUI = function (Q) {
         type: Q.SPRITE_MARIO,
         collisionMask: Q.SPRITE_BALAS | Q.SPRITE_ENEMIGO,
       });
+      // guardando la velocidadd -50
+      this.p.vxRetorno= this.p.vx;
       this.add("2d");
       // colisionar nuestro personaje
       this.on("bump.left",function(colisionar) {
@@ -30,6 +32,14 @@ Quintus.PersonajeGUI = function (Q) {
           // colisionar.obj.destroy();
           colisionar.obj.hacerDanio(this.p.danio);
         }
+        else if(colisionar.obj.isA("Fuego")){
+          console.log("entro a fuego");
+          // disminuir la vida del personaje
+          colisionar.obj.destroy();
+        }
+
+        // reasignando su valor inicial
+        this.p.vx=this.p.vxRetorno;
       });
     },
     step: function (dt) {

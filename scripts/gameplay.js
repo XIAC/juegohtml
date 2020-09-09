@@ -21,7 +21,6 @@ Quintus.GamePlayGUI = function (Q) {
             if (this.tiempoSiguienteHongo <= 0 ){
                 this.tiempoSiguienteHongo =this.siguienteHongo();
                 Q.stage(1).insert(new Q.Hongo());
-                console.log(":: dentro IF ",this.tiempoSiguienteHongo);
             }
         },
         siguienteHongo: function (){

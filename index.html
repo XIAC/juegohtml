@@ -21,7 +21,7 @@
     <script src="scripts/gameplay.js"></script>
 
     <script src="scripts/enemigo.js"></script>
-
+    <script src="scripts/fuego.js"></script>
 
   </head>
   <body>
@@ -29,7 +29,7 @@
       // Now set up your game (most games will load a separate .js file)
       var Q = Quintus() // Create a new engine instance
         .include("Sprites, Scenes, 2D, UI, Touch") // Load any needed modules
-        .include("BarraLateralGUI, PersonajeGUI, Hongo, GamePlayGUI, EnemigoGUI")
+        .include("BarraLateralGUI, PersonajeGUI, Hongo, GamePlayGUI, EnemigoGUI,FuegoGUI")
         .setup({
           width: 1080,
           height: 720,
@@ -71,7 +71,7 @@
         stage.insert(barraLateral);
       });
       Q.load(
-        "bg.jpg, mario150.png, hongo.png, Luigi50x50.png, princesa100x100.png, dragon300.png",
+        "bg.jpg, mario150.png, hongo.png, Luigi50x50.png, princesa100x100.png, dragon300.png, fuego50.png",
         function () {
           // Q.compileSheets("bg.jpg");
           // variables de estado, vida, balas
